@@ -3,10 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:CourseProjectTests"
         mc:Ignorable="d"
-        Title="WindowCreateTest" Height="450" Width="800">
+        Title="WindowCreateTest" Height="800" Width="1200">
     <Grid>
-        
+        <TextBox Padding="2" x:Name="PackNameTextBox" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="250" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter pack name" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="10,10,0,0"/>
+        <Button x:Name="ConfirmNamePack" Content="Сonfirm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="250" Height="31" FontSize="16" Click="ConfirmNamePack_Click" ></Button>
+        <ComboBox x:Name="ListPack" HorizontalAlignment="Left" Margin="15,90,0,0" VerticalAlignment="Top" Width="245"></ComboBox>
+        <Button x:Name="ConfirmQuestion" Content="Сonfirm" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,536,0,0" Width="634" Height="32" FontSize="16" Click="ConfirmQuestion_Click" />
+
+        <TextBox Padding="2" x:Name="QuestionText" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="718" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter a question" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,102,0,0"/>
+
+        <TextBox Padding="2" x:Name="VoprosTextBoxOne" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,164,0,0"/>
+        <ComboBox x:Name="BoolQuestionOne" HorizontalAlignment="Left" Margin="962,164,0,0" VerticalAlignment="Top" Width="80" Height="30">
+            <Label Content="True"></Label>
+            <Label Content="False"></Label>
+        </ComboBox>
+
+        <TextBox Padding="2" x:Name="VoprosTextBoxTwo" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,234,0,0"/>
+        <ComboBox x:Name="BoolQuestionTwo" HorizontalAlignment="Left" Margin="962,234,0,0" VerticalAlignment="Top" Width="80" Height="30">
+            <Label Content="True"></Label>
+            <Label Content="False"></Label>
+        </ComboBox>
+        <TextBox Padding="2" x:Name="VoprosTextBoxThird" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,292,0,0"/>
+        <ComboBox x:Name="BoolQuestionThird" HorizontalAlignment="Left" Margin="962,292,0,0" VerticalAlignment="Top" Width="80" Height="30">
+            <Label Content="True"/>
+            <Label Content="False"/>
+        </ComboBox>
+        <TextBox Padding="2" x:Name="VoprosTextBoxFour" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,362,0,0"/>
+        <ComboBox x:Name="BoolQuestionFour" HorizontalAlignment="Left" Margin="962,362,0,0" VerticalAlignment="Top" Width="80" Height="30">
+            <Label Content="True"/>
+            <Label Content="False"/>
+        </ComboBox>
+
+
     </Grid>
 </Window>

@@ -48,23 +48,23 @@ namespace CourseProjectTests
             }
             
         }
-        private async void Registration()
+        private void Registration()
         {
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 string str2 = str + "VALUES('" + UsernameH.Text + "', '" + PassH.Password.ToString() + "', '" + teacher + "')";
                 //MessageBox.Show(str2);
                 //открываем подклчение
-                await connection.OpenAsync();
+                connection.Open();
 
                 SqlCommand command = new SqlCommand(str2, connection);
 
-                int num = await command.ExecuteNonQueryAsync();
+                int num = command.ExecuteNonQuery();
             }
             
         }
 
-        async void ProverkaAutorization()
+        private  void ProverkaAutorization()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
@@ -77,15 +77,15 @@ namespace CourseProjectTests
             {
                 try
                 {
-                    await connection.OpenAsync();
+                    connection.Open();
                     SqlCommand command = new SqlCommand(sqlExpression, connection);
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
                         //string s1 = reader.GetName(3);
                         //string s2 = reader.GetName(2);
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             object nik = reader.GetValue(1);
                             object pass = reader.GetValue(2);
@@ -99,16 +99,18 @@ namespace CourseProjectTests
                                 }
                                 else
                                 {
-                                    await reader.CloseAsync();
+                                    reader.Close();
                                     MessageBox.Show("Successfully");
-                                    WindowCreateTest windowCreateTest = new WindowCreateTest();
-                                    windowCreateTest.ShowDialog();
+                                    
+                                        WindowCreateTest windowCreateTest = new WindowCreateTest();
+                                        windowCreateTest.ShowDialog();
+                                 
                                     return;
                                 }
                             }
                         }
 
-                        await reader.CloseAsync();
+                        //await reader.CloseAsync();
                     }
 
                 }
@@ -116,7 +118,7 @@ namespace CourseProjectTests
 
             }
         }
-        async void ProverkaRegi()
+         void ProverkaRegi()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
@@ -129,15 +131,15 @@ namespace CourseProjectTests
             {
                 try
                 {
-                    await connection.OpenAsync();
+                    connection.Open();
                     SqlCommand command = new SqlCommand(sqlExpression, connection);
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
                         //string s1 = reader.GetName(3);
                         //string s2 = reader.GetName(2);
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             object nik = reader.GetValue(1);                            
                             //MessageBox.Show(nik.ToString());
@@ -159,7 +161,7 @@ namespace CourseProjectTests
                             Registration();
                         }
 
-                        await reader.CloseAsync();
+                        reader.Close();
                     }
 
                 }
