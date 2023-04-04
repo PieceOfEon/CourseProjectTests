@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProjectTests"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        
+        Title="MainWindow" x:Name="main_window" Height="450" Width="800">
+    
     <Grid>
-           
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ButtonTeacherReg" Grid.Column="0" Content="Teacher" Height="{Binding ElementName=main_window, Path=ActualHeight}" FontSize="32" Click="ButtonTeacherReg_Click"/>
+        <Button x:Name="ButtonStudentReg" Grid.Column="1" Content="Student" Height="{Binding ElementName=main_window, Path=ActualHeight}" Background="#FFCE7E1D" FontSize="32" Click="ButtonStudentReg_Click"/>
     </Grid>
 </Window>

@@ -20,9 +20,24 @@ namespace CourseProjectTests
     /// </summary>
     public partial class MainWindow : Window
     {
+       
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ButtonTeacherReg_Click(object sender, RoutedEventArgs e)
+        {
+            WindowRegistrationAndConnect windowRegistrationAndConnect = new WindowRegistrationAndConnect(true);
+            windowRegistrationAndConnect.ShowDialog();
+            
+        }
+
+        private void ButtonStudentReg_Click(object sender, RoutedEventArgs e)
+        {
+            WindowRegistrationAndConnect windowRegistrationAndConnect = new WindowRegistrationAndConnect(false);
+            windowRegistrationAndConnect.ShowDialog();
+            
         }
     }
 }
