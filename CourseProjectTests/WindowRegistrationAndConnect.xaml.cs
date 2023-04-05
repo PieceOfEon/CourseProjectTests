@@ -23,7 +23,6 @@ namespace CourseProjectTests
     {
         private string connect = @"Data Source = DESKTOP-JA41I9L; Initial Catalog = CourseProjectTests; Trusted_connection=True";
         private string str = "";
-        //private string sqlExpression = "SELECT * FROM Registration";
         private bool teacher;
         
         string sqlExpression = "SELECT * FROM Registration";
@@ -99,20 +98,47 @@ namespace CourseProjectTests
                                 }
                                 else
                                 {
-                                    reader.Close();
-                                    MessageBox.Show("Successfully");
                                     
-                                        WindowCreateTest windowCreateTest = new WindowCreateTest();
-                                        windowCreateTest.ShowDialog();
-                                 
-                                    return;
+                                    
+                                    if(teacher==true)
+                                    {
+                                        bool teachorstudent = (bool)reader.GetValue(3);
+                                        if (teachorstudent == true)
+                                        {
+                                            MessageBox.Show("Successfully");
+                                            WindowCreateTest windowCreateTest = new WindowCreateTest();
+                                            windowCreateTest.ShowDialog();
+                                            reader.Close();
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Пёс, не быть тебе учителем!");
+                                            return;
+                                        }                                    
+                                    }
+                                    else
+                                    {
+                                        bool teachorstudent = (bool)reader.GetValue(3);
+                                        if (teachorstudent == false)
+                                        {
+                                            MessageBox.Show("Successfully");
+                                            WindowStudent windowStudent = new WindowStudent();
+                                            windowStudent.ShowDialog();
+                                            reader.Close();
+                                            return;
+
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Учитель должен учить а не учиться");
+                                            return;
+                                        }                                
+                                    }       
                                 }
                             }
                         }
-
-                        //await reader.CloseAsync();
                     }
-
                 }
                 catch (Exception e) { MessageBox.Show(e.Message); };
 

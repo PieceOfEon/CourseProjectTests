@@ -42,7 +42,12 @@
 
         </Image>
         <Button  x:Name="ExportImageButton" Content="Export Image" HorizontalAlignment="Left" Margin="1107,378,0,0" VerticalAlignment="Top" Width="405" Click="ExportImageButton_Click"/>
+        
         <CheckBox x:Name="EndedTestCheck" Content="At the end of the test pack, check the box" HorizontalAlignment="Left" Margin="300,392,0,0" VerticalAlignment="Top" Checked="EndedTestCheck_Checked" Unchecked="EndedTestCheck_Unchecked"/>
+       
+        <TextBox Padding="2" x:Name="CompetedPack" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="250" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Completed Paks" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="10,215,0,0" IsReadOnly="True"/>
+
+        <ComboBox x:Name="completedpacksBox" HorizontalAlignment="Left" Margin="15,250,0,0" VerticalAlignment="Top" Width="245"/>
 
 
     </Grid>

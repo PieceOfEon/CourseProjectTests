@@ -28,13 +28,14 @@ namespace CourseProjectTests
         private string connect = @"Data Source = DESKTOP-JA41I9L; Initial Catalog = CourseProjectTests; Trusted_connection=True";
 
         List<string> ListPackItems = new List<string>();
-
+        List<string> CompletedListPackItems = new List<string>();
         private string imagePath="";
         private string endTest = "";
         public WindowCreateTest()
         {
             InitializeComponent();
             ListPackAdd();
+            CompletedPacks();
             //MessageBox.Show( ListPackItems.Count.ToString());
         }
 
@@ -47,8 +48,6 @@ namespace CourseProjectTests
                 using (SqlConnection connection = new SqlConnection(connect))
                 {
                     string str2 = str + "VALUES('" + PackNameTextBox.Text + "')";
-                    //MessageBox.Show(str2);
-                    //открываем подклчение
                     connection.Open();
 
                     SqlCommand command = new SqlCommand(str2, connection);
@@ -59,6 +58,38 @@ namespace CourseProjectTests
                 ListPackAdd();
 
             }
+        }
+        private void CompletedPacks()
+        {
+            if (CompletedListPackItems.Count > 0)
+            {
+                CompletedListPackItems.Clear();
+                completedpacksBox.ItemsSource = null;
+            }
+            using (SqlConnection connection = new SqlConnection(connect))
+            {
+                try
+                {
+                    string sqlExpression = "SELECT * FROM Test where ended = 1";
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            object name = reader.GetValue(1);
+
+                            CompletedListPackItems.Add(name.ToString());
+                        }
+
+                        reader.Close();
+                    }
+                }
+                catch (Exception s) { MessageBox.Show(s.Message); };
+            }
+            completedpacksBox.ItemsSource = CompletedListPackItems;
         }
         private void ListPackAdd()
         {
@@ -78,34 +109,37 @@ namespace CourseProjectTests
 
                     if (reader.HasRows)
                     {
-                        //string s1 = reader.GetName(3);
-                        //string s2 = reader.GetName(2);
                         while (reader.Read())
                         {
                             object name = reader.GetValue(1);
                             
                             ListPackItems.Add(name.ToString());          
                         }
-                        
-                        
+
                         reader.Close();
                     }
-
                 }
                 catch (Exception s) { MessageBox.Show(s.Message); };
             }
             ListPack.ItemsSource = ListPackItems;
         }
-
+        //Очищаем поля после успешного добавления вопроса
+        private void ClearAllStr()
+        {
+            BoolQuestionFour.Text = "";
+            BoolQuestionThird.Text = "";
+            BoolQuestionTwo.Text = "";
+            BoolQuestionOne.Text = "";
+            imagePath = "";
+            VoprosTextBoxOne.Text = "";
+            QuestionText.Text = "";
+            VoprosTextBoxTwo.Text = "";
+            VoprosTextBoxThird.Text = "";
+            VoprosTextBoxFour.Text = "";
+            
+        }
         private void ConfirmQuestion_Click(object sender, RoutedEventArgs e)
         {
-            //LabelTrue.Content = BoolQuestionOne.Text;
-            //MessageBox.Show("Otvet4БУЛ->" +BoolQuestionFour.Text + "Otvet3БУЛ->" + BoolQuestionThird.Text + "Otvet2БУЛ->" + BoolQuestionTwo.Text 
-            //    +
-            //     "Otvet1БУЛ->" + BoolQuestionOne.Text + "картинка->" + imagePath.ToString()
-            //     +
-            //     "Вопрос->" + QuestionText.Text + "Ответ1->" + VoprosTextBoxOne.Text + "Ответ2->" + VoprosTextBoxTwo.Text +
-            //     "Ответ3->" + VoprosTextBoxThird.Text + "Ответ4->" + VoprosTextBoxFour.Text);
             string IDVoprosa="";
             string IDTesta = "";
             if(BoolQuestionFour.Text!="" && BoolQuestionThird.Text!="" && BoolQuestionTwo.Text!="" 
@@ -249,6 +283,8 @@ namespace CourseProjectTests
                     int num = command.ExecuteNonQuery();
 
                 }
+                ClearAllStr();
+                CompletedPacks();
             }
             else
             {
