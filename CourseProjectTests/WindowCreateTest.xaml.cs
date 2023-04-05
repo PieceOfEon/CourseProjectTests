@@ -30,6 +30,7 @@ namespace CourseProjectTests
         List<string> ListPackItems = new List<string>();
 
         private string imagePath="";
+        private string endTest = "";
         public WindowCreateTest()
         {
             InitializeComponent();
@@ -70,7 +71,7 @@ namespace CourseProjectTests
             {
                 try
                 {
-                    string sqlExpression = "SELECT * FROM Test";
+                    string sqlExpression = "SELECT * FROM Test where ended = 0";
                     connection.Open();
                     SqlCommand command = new SqlCommand(sqlExpression, connection);
                     SqlDataReader reader = command.ExecuteReader();
@@ -106,11 +107,13 @@ namespace CourseProjectTests
             //     "Вопрос->" + QuestionText.Text + "Ответ1->" + VoprosTextBoxOne.Text + "Ответ2->" + VoprosTextBoxTwo.Text +
             //     "Ответ3->" + VoprosTextBoxThird.Text + "Ответ4->" + VoprosTextBoxFour.Text);
             string IDVoprosa="";
+            string IDTesta = "";
             if(BoolQuestionFour.Text!="" && BoolQuestionThird.Text!="" && BoolQuestionTwo.Text!="" 
                 && BoolQuestionOne.Text!="" && imagePath.ToString()!="" && VoprosTextBoxOne.Text!="" 
                 && QuestionText.Text!="" && VoprosTextBoxTwo.Text!="" 
-                && VoprosTextBoxThird.Text!="" && VoprosTextBoxFour.Text!="")
+                && VoprosTextBoxThird.Text!="" && VoprosTextBoxFour.Text!="" && ListPack.Text!="")
             {
+                //Добавляем вопрос в пак вопросов
                 //string sqlExpression = "SELECT * FROM Vopros";
                 string str = "INSERT INTO Vopros (voprosik, Picture, variant1, variant2, variant3, variant4)\r\n" +
                     "VALUES ('"+ QuestionText.Text +"', \r\n        " +
@@ -129,7 +132,7 @@ namespace CourseProjectTests
 
                 }
 
-
+                //Получаем ID созданного вопроса
                 using (SqlConnection connection = new SqlConnection(connect))
                 {
                     try
@@ -160,8 +163,9 @@ namespace CourseProjectTests
                     }
                     catch (Exception s) { MessageBox.Show(s.Message); };
                 }
-                //MessageBox.Show(IDVoprosa);
-                //string sqlExpression2 = "SELECT * FROM Vopros";
+               
+
+                //Добавляем ответы в виде стринги в таблицу ОтветСтринг и передаем ID созданного вопроса
                 string str3 = "insert into OtvetString(variantString1, variantString2, variantString3, variantString4,voprosID) " +
                     "values('" + VoprosTextBoxOne.Text + "', '" + VoprosTextBoxTwo.Text + "', '" + VoprosTextBoxThird.Text + "', '" + VoprosTextBoxFour.Text+ "', " + IDVoprosa + ")";
                 using (SqlConnection connection = new SqlConnection(connect))
@@ -177,11 +181,80 @@ namespace CourseProjectTests
                     int num = command.ExecuteNonQuery();
 
                 }
+
+                //Получаем ID пакета вопросов которого мы выбрали для записи вопроса
+                using (SqlConnection connection = new SqlConnection(connect))
+                {
+                    try
+                    {
+                        string sqlExpression3 = "SELECT * FROM Test";
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression3, connection);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            //string s1 = reader.GetName(3);
+                            //string s2 = reader.GetName(2);
+                            while (reader.Read())
+                            {
+                                object id = reader.GetValue(0);
+                                object name = reader.GetValue(1);
+                                if (name.ToString().ToLower() == ListPack.Text.ToLower())
+                                {
+
+                                    IDTesta = id.ToString();
+                                    //MessageBox.Show(IDVoprosa + "\t" + name.ToString() +"\t"+QuestionText.Text.ToLower());
+                                }
+                            }
+                            reader.Close();
+                        }
+
+                    }
+                    catch (Exception s) { MessageBox.Show(s.Message); };
+                }
+                //присваиваем endTest значение ТРУ и передаем его в БД для маркировки завершенного теста
+                //чтоб он больше не отображался в листе не завершенных паков тестов
+                if(endTest=="1")
+                {
+                    MessageBox.Show(IDTesta);
+                    string strEnded = "UPDATE Test\r\nSET ended = 1\r\nWHERE id = "+ IDTesta+"; ";
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        string str2 = strEnded;
+                        //MessageBox.Show(str2);
+                        //открываем подклчение
+                        connection.Open();
+
+                        SqlCommand command = new SqlCommand(str2, connection);
+
+                        int num = command.ExecuteNonQuery();
+
+                    }
+                    ListPackAdd();
+                }
+                //Добавление ID теста и вопроса в пак
+                string str4 = "insert into Pack(testID, voprosID) " +
+                    "values(" +IDTesta + ", " + IDVoprosa + ")";
+                using (SqlConnection connection = new SqlConnection(connect))
+                {
+
+                    string str2 = str4;
+                    //MessageBox.Show(str2);
+                    //открываем подклчение
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(str2, connection);
+
+                    int num = command.ExecuteNonQuery();
+
+                }
             }
             else
             {
                 MessageBox.Show("Все поля обязательны для заполнения");
             }
+
           
         }
 
@@ -198,7 +271,17 @@ namespace CourseProjectTests
                 Images.Source = bitmap;
             }
             imagePath = ((BitmapImage)Images.Source).UriSource.LocalPath;
-            LabelTestSource.Content = imagePath;
+            //LabelTestSource.Content = imagePath;
+        }
+
+        private void EndedTestCheck_Checked(object sender, RoutedEventArgs e)
+        {
+            endTest = "1";
+        }
+
+        private void EndedTestCheck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            endTest = "0";
         }
     }
 }
