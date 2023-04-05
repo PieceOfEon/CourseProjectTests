@@ -26,10 +26,13 @@ namespace CourseProjectTests
         private string connect = @"Data Source = DESKTOP-JA41I9L; Initial Catalog = CourseProjectTests; Trusted_connection=True";
         List<string> ListTestPackItems = new List<string>();
         List<Pack> packs = new List<Pack>();
+
+        int kolTest = 0;
         public WindowStudent()
         {
             InitializeComponent();
             TestPack();
+            PrevButton.Visibility = Visibility.Hidden;
         }
         private void TestPack()
         {
@@ -68,6 +71,7 @@ namespace CourseProjectTests
         {
             if (PackTests.Text != "")
             {
+                kolTest = 0;
                 packs.Clear();
                 string IDVoprosa = "";
                 //Question.Text="ALOOO";
@@ -186,7 +190,9 @@ namespace CourseProjectTests
                         reader.Close();
                     }
                 }
-               
+
+                CheckCountVOpros();
+
                 Question.Text = packs[0].vopros;
 
                 variant1.Content = packs[0].otvet1;
@@ -200,6 +206,75 @@ namespace CourseProjectTests
 
 
             }
+        }
+        private void CheckCountVOpros()
+        {
+            if (packs.Count == 1)
+            {
+                NextButton.Visibility = Visibility.Hidden;
+                PrevButton.Visibility = Visibility.Hidden;
+            }
+
+            if (packs.Count > 1)
+            {
+                NextButton.Visibility = Visibility.Visible;
+                PrevButton.Visibility = Visibility.Hidden;
+            }
+        }
+        private void NextVopros()
+        {
+            kolTest++;
+            if (kolTest >= packs.Count - 1)
+            {
+                NextButton.Visibility = Visibility.Hidden;
+                PrevButton.Visibility = Visibility.Visible;
+                kolTest = packs.Count - 1;
+            }
+            if (kolTest < packs.Count)
+            {
+                PrevButton.Visibility = Visibility.Visible;
+                Question.Text = packs[kolTest].vopros;
+
+                variant1.Content = packs[kolTest].otvet1;
+                variant2.Content = packs[kolTest].otvet2;
+                variant3.Content = packs[kolTest].otvet3;
+                variant4.Content = packs[kolTest].otvet4;
+
+                PictureImage.Source = packs[kolTest].Imges;
+
+            }
+        }
+        private void PrevVopros()
+        {
+            kolTest--;
+            if (kolTest <= 0)
+            {
+                PrevButton.Visibility = Visibility.Hidden;
+                NextButton.Visibility = Visibility.Visible;
+                kolTest = 0;
+            }
+            if (kolTest < packs.Count)
+            {
+                NextButton.Visibility = Visibility.Visible;
+                Question.Text = packs[kolTest].vopros;
+
+                variant1.Content = packs[kolTest].otvet1;
+                variant2.Content = packs[kolTest].otvet2;
+                variant3.Content = packs[kolTest].otvet3;
+                variant4.Content = packs[kolTest].otvet4;
+
+                PictureImage.Source = packs[kolTest].Imges;
+
+            }
+        }
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            NextVopros();
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            PrevVopros();
         }
     }
     class Pack

@@ -20,10 +20,10 @@
         <CheckBox MaxWidth="200" x:Name="variant2" Content="CheckBox" HorizontalAlignment="Left" Margin="414,388,0,0" VerticalAlignment="Top"/>
         <CheckBox MaxWidth="200" x:Name="variant3" Content="CheckBox" HorizontalAlignment="Left" Margin="672,388,0,0" VerticalAlignment="Top"/>
         <CheckBox MaxWidth="200" x:Name="variant4" Content="CheckBox" HorizontalAlignment="Left" Margin="872,388,0,0" VerticalAlignment="Top"/>
-        <Button Width="100" Content="Next" HorizontalAlignment="Left" Margin="972,468,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="NextButton" Width="100" Content="Next" HorizontalAlignment="Left" Margin="972,468,0,0" VerticalAlignment="Top" Click="NextButton_Click"/>
 
         <TextBox Padding="2" x:Name="Question" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="864" Height="51"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="24" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="146,291,0,0" IsReadOnly="True"/>
-        <Button Width="100" Content="Prev" HorizontalAlignment="Left" Margin="98,468,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="PrevButton" Width="100" Content="Prev" HorizontalAlignment="Left" Margin="98,463,0,0" VerticalAlignment="Top" Click="PrevButton_Click"/>
         <Label x:Name="lab" Content="Label" HorizontalAlignment="Left" Margin="429,468,0,0" VerticalAlignment="Top"/>
 
 

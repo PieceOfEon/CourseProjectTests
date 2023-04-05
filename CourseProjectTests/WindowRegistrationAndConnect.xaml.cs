@@ -113,7 +113,7 @@ namespace CourseProjectTests
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Пёс, не быть тебе учителем!");
+                                            MessageBox.Show("Вход разрешен только учителям");
                                             return;
                                         }                                    
                                     }
@@ -131,7 +131,7 @@ namespace CourseProjectTests
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Учитель должен учить а не учиться");
+                                            MessageBox.Show("Вход только для студентов");
                                             return;
                                         }                                
                                     }       
