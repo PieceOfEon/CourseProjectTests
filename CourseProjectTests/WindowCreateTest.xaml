@@ -7,36 +7,43 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:CourseProjectTests"
         mc:Ignorable="d"
-        Title="WindowCreateTest" Height="800" Width="1200">
+        Title="WindowCreateTest" Height="1000" Width="1600">
     <Grid>
         <TextBox Padding="2" x:Name="PackNameTextBox" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="250" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter pack name" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="10,10,0,0"/>
         <Button x:Name="ConfirmNamePack" Content="Сonfirm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="250" Height="31" FontSize="16" Click="ConfirmNamePack_Click" ></Button>
-        <ComboBox x:Name="ListPack" HorizontalAlignment="Left" Margin="15,90,0,0" VerticalAlignment="Top" Width="245"></ComboBox>
-        <Button x:Name="ConfirmQuestion" Content="Сonfirm" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,536,0,0" Width="634" Height="32" FontSize="16" Click="ConfirmQuestion_Click" />
+        <ComboBox x:Name="ListPack" HorizontalAlignment="Left" Margin="15,90,0,0" VerticalAlignment="Top" Width="245" ToolTip="Select a pack of questions"></ComboBox>
+        <Button x:Name="ConfirmQuestion" Content="Сonfirm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="324,688,0,0" Width="634" Height="32" FontSize="16" Click="ConfirmQuestion_Click" />
 
         <TextBox Padding="2" x:Name="QuestionText" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="718" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter a question" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,102,0,0"/>
 
         <TextBox Padding="2" x:Name="VoprosTextBoxOne" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,164,0,0"/>
-        <ComboBox x:Name="BoolQuestionOne" HorizontalAlignment="Left" Margin="962,164,0,0" VerticalAlignment="Top" Width="80" Height="30">
+        <ComboBox x:Name="BoolQuestionOne" HorizontalAlignment="Left" Margin="962,164,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
             <Label Content="True"></Label>
             <Label Content="False"></Label>
         </ComboBox>
 
         <TextBox Padding="2" x:Name="VoprosTextBoxTwo" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,234,0,0"/>
-        <ComboBox x:Name="BoolQuestionTwo" HorizontalAlignment="Left" Margin="962,234,0,0" VerticalAlignment="Top" Width="80" Height="30">
+        <ComboBox x:Name="BoolQuestionTwo" HorizontalAlignment="Left" Margin="962,234,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
             <Label Content="True"></Label>
             <Label Content="False"></Label>
         </ComboBox>
         <TextBox Padding="2" x:Name="VoprosTextBoxThird" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,292,0,0"/>
-        <ComboBox x:Name="BoolQuestionThird" HorizontalAlignment="Left" Margin="962,292,0,0" VerticalAlignment="Top" Width="80" Height="30">
+        <ComboBox x:Name="BoolQuestionThird" HorizontalAlignment="Left" Margin="962,292,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
             <Label Content="True"/>
             <Label Content="False"/>
         </ComboBox>
         <TextBox Padding="2" x:Name="VoprosTextBoxFour" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="324,362,0,0"/>
-        <ComboBox x:Name="BoolQuestionFour" HorizontalAlignment="Left" Margin="962,362,0,0" VerticalAlignment="Top" Width="80" Height="30">
+        <ComboBox x:Name="BoolQuestionFour" HorizontalAlignment="Left" Margin="962,362,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
             <Label Content="True"/>
             <Label Content="False"/>
         </ComboBox>
+
+        <Image x:Name="Images" HorizontalAlignment="Left" Height="300" Margin="1131,102,0,0" VerticalAlignment="Top" Width="400">
+
+        </Image>
+        <Button  x:Name="ExportImageButton" Content="Export Image" HorizontalAlignment="Left" Margin="1131,439,0,0" VerticalAlignment="Top" Width="405" Click="ExportImageButton_Click"/>
+        <Label x:Name="LabelTestSource" Content="Label" HorizontalAlignment="Left" Margin="1076,583,0,0" VerticalAlignment="Top" Height="50" Width="383"/>
+        <Label x:Name="LabelTrue" Content="Label" HorizontalAlignment="Left" Margin="1089,688,0,0" VerticalAlignment="Top"/>
 
 
     </Grid>
