@@ -251,7 +251,7 @@ namespace CourseProjectTests
                 //чтоб он больше не отображался в листе не завершенных паков тестов
                 if(endTest=="1")
                 {
-                    MessageBox.Show(IDTesta);
+                    //MessageBox.Show(IDTesta);
                     string strEnded = "UPDATE Test\r\nSET ended = 1\r\nWHERE id = "+ IDTesta+"; ";
                     using (SqlConnection connection = new SqlConnection(connect))
                     {

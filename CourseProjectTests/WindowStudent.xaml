@@ -4,9 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProjectTests"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="WindowStudent" Height="450" Width="800">
+        Title="WindowStudent" Height="700" Width="1200">
     <Grid>
-        
+        <TextBox Padding="2" x:Name="CompetedPack" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="250" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Select Tests" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="21,22,0,0" IsReadOnly="True"/>
+
+        <ComboBox x:Name="PackTests" HorizontalAlignment="Left" Margin="26,57,0,0" VerticalAlignment="Top" Width="245"/>
+        <Button x:Name="ConfirmTest" Content="Confirm" HorizontalAlignment="Left" Margin="21,87,0,0" VerticalAlignment="Top" Width="250" Click="ConfirmTest_Click"/>
+
+        <Image x:Name="PictureImage" HorizontalAlignment="Left" VerticalAlignment="Top" Height="256" Width="841" Margin="310,10,0,0"></Image>
+
+        <CheckBox MaxWidth="200" x:Name="variant1" Content="CheckBox" HorizontalAlignment="Left" Margin="172,388,0,0" VerticalAlignment="Top"/>
+        <CheckBox MaxWidth="200" x:Name="variant2" Content="CheckBox" HorizontalAlignment="Left" Margin="414,388,0,0" VerticalAlignment="Top"/>
+        <CheckBox MaxWidth="200" x:Name="variant3" Content="CheckBox" HorizontalAlignment="Left" Margin="672,388,0,0" VerticalAlignment="Top"/>
+        <CheckBox MaxWidth="200" x:Name="variant4" Content="CheckBox" HorizontalAlignment="Left" Margin="872,388,0,0" VerticalAlignment="Top"/>
+        <Button Width="100" Content="Next" HorizontalAlignment="Left" Margin="972,468,0,0" VerticalAlignment="Top"/>
+
+        <TextBox Padding="2" x:Name="Question" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="864" Height="51"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="24" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="146,291,0,0" IsReadOnly="True"/>
+        <Button Width="100" Content="Prev" HorizontalAlignment="Left" Margin="98,468,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lab" Content="Label" HorizontalAlignment="Left" Margin="429,468,0,0" VerticalAlignment="Top"/>
+
+
+
     </Grid>
 </Window>
