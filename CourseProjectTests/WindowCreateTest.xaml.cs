@@ -158,7 +158,6 @@ namespace CourseProjectTests
                 && VoprosTextBoxThird.Text!="" && VoprosTextBoxFour.Text!="" && ListPack.Text!="")
             {
                 //Добавляем вопрос в пак вопросов
-                //string sqlExpression = "SELECT * FROM Vopros";
                 string str = "INSERT INTO Vopros (voprosik, Picture, variant1, variant2, variant3, variant4)\r\n" +
                     "VALUES ('"+ QuestionText.Text +"', \r\n        " +
                     "(SELECT BulkColumn FROM Openrowset( Bulk '"+ imagePath.ToString() + "', Single_Blob) as Image), \r\n" +
@@ -192,9 +191,7 @@ namespace CourseProjectTests
                                 object name = reader.GetValue(1);
                                 if (name.ToString().ToLower() == QuestionText.Text.ToLower())
                                 {
-
                                     IDVoprosa = id.ToString();
-                                    //MessageBox.Show(IDVoprosa + "\t" + name.ToString() +"\t"+QuestionText.Text.ToLower());
                                 }
                             }
                             reader.Close();
