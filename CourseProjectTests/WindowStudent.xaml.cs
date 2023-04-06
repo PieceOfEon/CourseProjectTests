@@ -28,11 +28,15 @@ namespace CourseProjectTests
         List<Pack> packs = new List<Pack>();
 
         int kolTest = 0;
+        int kolBallov = 0;
+        int kolStudBall = 0;
         public WindowStudent()
         {
             InitializeComponent();
             TestPack();
-            PrevButton.Visibility = Visibility.Hidden;
+            HiddenInterfaceTest();
+            Question.HorizontalAlignment = HorizontalAlignment.Center;
+            Question.Text = "Добро пожаловать!";
         }
         private void TestPack()
         {
@@ -71,10 +75,11 @@ namespace CourseProjectTests
         {
             if (PackTests.Text != "")
             {
+                kolBallov = 0;
+                kolStudBall = 0;
                 kolTest = 0;
                 packs.Clear();
                 string IDVoprosa = "";
-                //Question.Text="ALOOO";
                 //Получаем ID выбранного теста
                 using (SqlConnection connection = new SqlConnection(connect))
                 {
@@ -87,23 +92,17 @@ namespace CourseProjectTests
 
                         if (reader.HasRows)
                         {
-                            //string s1 = reader.GetName(3);
-                            //string s2 = reader.GetName(2);
                             while (reader.Read())
                             {
                                 object id = reader.GetValue(0);
                                 object name = reader.GetValue(1);
                                 if (name.ToString().ToLower() == PackTests.Text.ToLower())
                                 {
-
                                     IDVoprosa = id.ToString();
-                                    //MessageBox.Show(IDVoprosa + "\t" + name.ToString() + "\t" + PackTests.Text.ToLower());
                                 }
                             }
                             reader.Close();
-                        }
-
-                        
+                        } 
                     }
                     catch (Exception s) { MessageBox.Show(s.Message); };
                 }
@@ -117,8 +116,6 @@ namespace CourseProjectTests
 
                     if (reader.HasRows)
                     {
-                        //string s1 = reader.GetName(3);
-                        //string s2 = reader.GetName(2);
                         while (reader.Read())
                         {
                             object id = reader.GetValue(0);
@@ -158,9 +155,6 @@ namespace CourseProjectTests
                             object id = reader.GetValue(0);
                             string vopros = reader.GetValue(1).ToString();
                            
-                            
-                            
-
                             byte[] Images = (byte[])reader.GetValue(2);
                             Stream StreamObj = new MemoryStream(Images);
                             BitmapImage BitObj = new BitmapImage();
@@ -169,12 +163,13 @@ namespace CourseProjectTests
                             BitObj.EndInit();
                             PictureImage.Source = BitObj;
 
-
                             bool varBool1 = (bool)reader.GetValue(3);
                             bool varBool2 = (bool)reader.GetValue(4);
                             bool varBool3 = (bool)reader.GetValue(5);
                             bool varBool4 = (bool)reader.GetValue(6);
-
+ 
+                            kolBallov++;
+                            
                             string var1 = reader.GetValue(7).ToString();
                             string var2 = reader.GetValue(8).ToString();
                             string var3 = reader.GetValue(9).ToString();
@@ -202,9 +197,8 @@ namespace CourseProjectTests
 
                 PictureImage.Source = packs[0].Imges;
 
-
-
-
+                VisibilityInterfaceTest();
+                HiddenDownloadTest();
             }
         }
         private void CheckCountVOpros()
@@ -212,27 +206,65 @@ namespace CourseProjectTests
             if (packs.Count == 1)
             {
                 NextButton.Visibility = Visibility.Hidden;
-                PrevButton.Visibility = Visibility.Hidden;
+                
             }
 
             if (packs.Count > 1)
             {
                 NextButton.Visibility = Visibility.Visible;
-                PrevButton.Visibility = Visibility.Hidden;
+                
+            }
+        }
+        private void Points()
+        {
+            //MessageBox.Show(kolTest.ToString() + " bol1 " + packs[kolTest].bool1.ToString() + " bol2 " + packs[kolTest].bool1.ToString() + " bol3 " + packs[kolTest].bool1.ToString() + " bol4 " + packs[kolTest].bool1.ToString() + " BOX1 " + variant3.IsChecked + " BOX2 " + variant3.IsChecked + " BOX3 " + variant3.IsChecked + " BOX4 " + variant3.IsChecked);
+            
+            if (packs[kolTest].bool1 == true)
+            {
+                if (variant1.IsChecked == true)
+                {
+                    kolStudBall++;
+                }
+               
+            }
+            if (packs[kolTest].bool2 == true)
+            {
+                if (variant2.IsChecked == true)
+                {
+                    kolStudBall++;
+                }
+               
+            }
+            if (packs[kolTest].bool3 == true)
+            {
+                if(variant3.IsChecked==true)
+                {
+                    kolStudBall++;
+                }
+                
+            }
+            if (packs[kolTest].bool4 == true)
+            {
+                if (variant4.IsChecked == true)
+                {
+                    kolStudBall++;
+                }
             }
         }
         private void NextVopros()
         {
+            //MessageBox.Show(kolBallov.ToString());
+            ConfirmAnswerButton.Visibility = Visibility.Visible;
+            //Points();
             kolTest++;
             if (kolTest >= packs.Count - 1)
             {
+                //Points();
                 NextButton.Visibility = Visibility.Hidden;
-                PrevButton.Visibility = Visibility.Visible;
                 kolTest = packs.Count - 1;
             }
             if (kolTest < packs.Count)
             {
-                PrevButton.Visibility = Visibility.Visible;
                 Question.Text = packs[kolTest].vopros;
 
                 variant1.Content = packs[kolTest].otvet1;
@@ -241,40 +273,64 @@ namespace CourseProjectTests
                 variant4.Content = packs[kolTest].otvet4;
 
                 PictureImage.Source = packs[kolTest].Imges;
-
+                //возможно тут проблема
+                variant1.IsChecked = false;
+                variant2.IsChecked = false;
+                variant3.IsChecked = false;
+                variant4.IsChecked = false;
             }
         }
-        private void PrevVopros()
+        private void HiddenDownloadTest()
         {
-            kolTest--;
-            if (kolTest <= 0)
-            {
-                PrevButton.Visibility = Visibility.Hidden;
-                NextButton.Visibility = Visibility.Visible;
-                kolTest = 0;
-            }
-            if (kolTest < packs.Count)
-            {
-                NextButton.Visibility = Visibility.Visible;
-                Question.Text = packs[kolTest].vopros;
-
-                variant1.Content = packs[kolTest].otvet1;
-                variant2.Content = packs[kolTest].otvet2;
-                variant3.Content = packs[kolTest].otvet3;
-                variant4.Content = packs[kolTest].otvet4;
-
-                PictureImage.Source = packs[kolTest].Imges;
-
-            }
+            CompetedPack.Visibility = Visibility.Hidden;
+            PackTests.Visibility = Visibility.Hidden;
+            ConfirmTest.Visibility = Visibility.Hidden;
+        }
+        private void VisibilityDownloadTest()
+        {
+            CompetedPack.Visibility = Visibility.Visible;
+            PackTests.Visibility = Visibility.Visible;
+            ConfirmTest.Visibility = Visibility.Visible;
+        }
+        private void HiddenInterfaceTest()
+        {
+            
+            variant1.Visibility = Visibility.Hidden;
+            variant2.Visibility = Visibility.Hidden;
+            variant3.Visibility = Visibility.Hidden;
+            variant4.Visibility = Visibility.Hidden;
+            ConfirmAnswerButton.Visibility = Visibility.Hidden;
+            NextButton.Visibility = Visibility.Hidden;
+            Endtest.Visibility = Visibility.Hidden;
+            PictureImage.Visibility = Visibility.Hidden;
+        }
+        private void VisibilityInterfaceTest()
+        {
+            Question.Visibility = Visibility.Visible;
+            variant1.Visibility = Visibility.Visible;
+            variant2.Visibility = Visibility.Visible;
+            variant3.Visibility = Visibility.Visible;
+            variant4.Visibility = Visibility.Visible;
+            ConfirmAnswerButton.Visibility = Visibility.Visible;
+            //NextButton.Visibility = Visibility.Visible;
+            Endtest.Visibility = Visibility.Visible;
+            PictureImage.Visibility = Visibility.Visible;
         }
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             NextVopros();
         }
-
-        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        private void ConfirmAnswerButton_Click(object sender, RoutedEventArgs e)
         {
-            PrevVopros();
+            Points();
+            ConfirmAnswerButton.Visibility = Visibility.Hidden;
+        }
+
+        private void Endtest_Click(object sender, RoutedEventArgs e)
+        {
+            Question.Text="Вы заработали: " + kolStudBall.ToString() + " из " + kolBallov.ToString() + " баллов.";
+            VisibilityDownloadTest();
+            HiddenInterfaceTest();
         }
     }
     class Pack

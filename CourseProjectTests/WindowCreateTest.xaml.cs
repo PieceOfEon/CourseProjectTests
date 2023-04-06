@@ -42,7 +42,35 @@ namespace CourseProjectTests
         private void ConfirmNamePack_Click(object sender, RoutedEventArgs e)
         {
             if (PackNameTextBox.Text != "")
-            {
+            {   
+                //Проверка на одинаковое название
+                using (SqlConnection connection = new SqlConnection(connect))
+                {
+                    try
+                    {
+                        string sqlExpression2 = "SELECT * FROM Test";
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression2, connection);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                object name = reader.GetValue(1);
+                                if (name.ToString().ToLower() == PackNameTextBox.Text.ToLower())
+                                {
+                                    MessageBox.Show("Уже есть такое название пака");
+                                    return;
+                                }
+                            }
+
+                            reader.Close();
+                        }
+                    }
+                    catch (Exception s) { MessageBox.Show(s.Message); };
+                }
+                //добавление пака
                 string sqlExpression = "SELECT * FROM Test";
                 string str = "INSERT INTO Test(names) ";
                 using (SqlConnection connection = new SqlConnection(connect))
@@ -55,6 +83,7 @@ namespace CourseProjectTests
                     int num = command.ExecuteNonQuery();
                     
                 }
+                //добавление пака в лист
                 ListPackAdd();
 
             }
@@ -112,8 +141,16 @@ namespace CourseProjectTests
                         while (reader.Read())
                         {
                             object name = reader.GetValue(1);
-                            
-                            ListPackItems.Add(name.ToString());          
+                            if(name.ToString().ToLower()== PackNameTextBox.Text)
+                            {
+                                MessageBox.Show("Уже есть такое название пака");
+                                return;
+                            }
+                            else
+                            {
+                                ListPackItems.Add(name.ToString());
+                            }
+                                    
                         }
 
                         reader.Close();
