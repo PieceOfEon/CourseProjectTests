@@ -6,14 +6,17 @@
         xmlns:local="clr-namespace:CourseProjectTests"
         mc:Ignorable="d"
         
-        Title="MainWindow" x:Name="main_window" Height="450" Width="800">
-    
+        Title="MainWindow" x:Name="main_window" Height="450" Width="800" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MouseDown="Window_MouseDown">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button x:Name="ButtonTeacherReg" Grid.Column="0" Content="Teacher" Height="{Binding ElementName=main_window, Path=ActualHeight}" FontSize="32" Click="ButtonTeacherReg_Click"/>
-        <Button x:Name="ButtonStudentReg" Grid.Column="1" Content="Student" Height="{Binding ElementName=main_window, Path=ActualHeight}" Background="#FFCE7E1D" FontSize="32" Click="ButtonStudentReg_Click"/>
+        <Button  x:Name="ButtonStudentReg" Grid.Column="1" Content="Student" Height="{Binding ElementName=main_window, Path=ActualHeight}" Background="#FFCE7E1D" FontSize="32" Click="ButtonStudentReg_Click"/>
+
+        <Button Background="#FFCE7E1D" Content="r" Margin="353,0,0,418" Click="Button_Click" FontFamily="Webdings" FontSize="16" Grid.Column="1"></Button>
+        <Button  Background="#FFCE7E1D" Content="0" Margin="303,0,47,418"  FontFamily="Webdings" FontSize="16" Click="Button_Click_1" Grid.Column="1"></Button>
     </Grid>
 </Window>

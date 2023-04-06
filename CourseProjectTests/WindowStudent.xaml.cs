@@ -1,20 +1,10 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CourseProjectTests
 {
@@ -35,7 +25,6 @@ namespace CourseProjectTests
             InitializeComponent();
             TestPack();
             HiddenInterfaceTest();
-            Question.HorizontalAlignment = HorizontalAlignment.Center;
             Question.Text = "Добро пожаловать!";
         }
         private void TestPack()
@@ -62,7 +51,6 @@ namespace CourseProjectTests
 
                             ListTestPackItems.Add(name.ToString());
                         }
-
                         reader.Close();
                     }
                 }
@@ -70,7 +58,6 @@ namespace CourseProjectTests
             }
             PackTests.ItemsSource = ListTestPackItems;
         }
-
         private void ConfirmTest_Click(object sender, RoutedEventArgs e)
         {
             if (PackTests.Text != "")
@@ -142,6 +129,7 @@ namespace CourseProjectTests
                     "OtvetString.variantString4 FROM Pack INNER JOIN Vopros ON Pack.voprosID = Vopros.id" +
                     " LEFT JOIN OtvetString ON Vopros.id = OtvetString.voprosID " +
                     "WHERE Pack.testID =" + IDVoprosa + ";";
+
                 using (SqlConnection connection = new SqlConnection(connect))
                 {
                     connection.Open();
@@ -175,17 +163,11 @@ namespace CourseProjectTests
                             string var3 = reader.GetValue(9).ToString();
                             string var4 = reader.GetValue(10).ToString();
 
-
-                            //lab.Content = id + "\t" + vopros + "\t" + BitObj + "\t" + var1 + "\t" + var2 + "\t" + var3 + "\t" + var4 + "\t" + varBool1 + "\t" + varBool2 + "\t" + varBool3 + "\t" + varBool4;
                             packs.Add(new Pack(var1, var2, var3, var4, varBool1, varBool2, varBool3, varBool4, BitObj, vopros));
-
-                           
-                            
                         }
                         reader.Close();
                     }
                 }
-
                 CheckCountVOpros();
 
                 Question.Text = packs[0].vopros;
@@ -206,26 +188,20 @@ namespace CourseProjectTests
             if (packs.Count == 1)
             {
                 NextButton.Visibility = Visibility.Hidden;
-                
             }
-
             if (packs.Count > 1)
             {
                 NextButton.Visibility = Visibility.Visible;
-                
             }
         }
         private void Points()
         {
-            //MessageBox.Show(kolTest.ToString() + " bol1 " + packs[kolTest].bool1.ToString() + " bol2 " + packs[kolTest].bool1.ToString() + " bol3 " + packs[kolTest].bool1.ToString() + " bol4 " + packs[kolTest].bool1.ToString() + " BOX1 " + variant3.IsChecked + " BOX2 " + variant3.IsChecked + " BOX3 " + variant3.IsChecked + " BOX4 " + variant3.IsChecked);
-            
             if (packs[kolTest].bool1 == true)
             {
                 if (variant1.IsChecked == true)
                 {
                     kolStudBall++;
                 }
-               
             }
             if (packs[kolTest].bool2 == true)
             {
@@ -233,15 +209,13 @@ namespace CourseProjectTests
                 {
                     kolStudBall++;
                 }
-               
             }
             if (packs[kolTest].bool3 == true)
             {
                 if(variant3.IsChecked==true)
                 {
                     kolStudBall++;
-                }
-                
+                } 
             }
             if (packs[kolTest].bool4 == true)
             {
@@ -253,13 +227,10 @@ namespace CourseProjectTests
         }
         private void NextVopros()
         {
-            //MessageBox.Show(kolBallov.ToString());
             ConfirmAnswerButton.Visibility = Visibility.Visible;
-            //Points();
             kolTest++;
             if (kolTest >= packs.Count - 1)
             {
-                //Points();
                 NextButton.Visibility = Visibility.Hidden;
                 kolTest = packs.Count - 1;
             }
@@ -273,7 +244,7 @@ namespace CourseProjectTests
                 variant4.Content = packs[kolTest].otvet4;
 
                 PictureImage.Source = packs[kolTest].Imges;
-                //возможно тут проблема
+
                 variant1.IsChecked = false;
                 variant2.IsChecked = false;
                 variant3.IsChecked = false;
@@ -294,7 +265,6 @@ namespace CourseProjectTests
         }
         private void HiddenInterfaceTest()
         {
-            
             variant1.Visibility = Visibility.Hidden;
             variant2.Visibility = Visibility.Hidden;
             variant3.Visibility = Visibility.Hidden;
@@ -312,7 +282,6 @@ namespace CourseProjectTests
             variant3.Visibility = Visibility.Visible;
             variant4.Visibility = Visibility.Visible;
             ConfirmAnswerButton.Visibility = Visibility.Visible;
-            //NextButton.Visibility = Visibility.Visible;
             Endtest.Visibility = Visibility.Visible;
             PictureImage.Visibility = Visibility.Visible;
         }
@@ -325,12 +294,24 @@ namespace CourseProjectTests
             Points();
             ConfirmAnswerButton.Visibility = Visibility.Hidden;
         }
-
         private void Endtest_Click(object sender, RoutedEventArgs e)
         {
             Question.Text="Вы заработали: " + kolStudBall.ToString() + " из " + kolBallov.ToString() + " баллов.";
             VisibilityDownloadTest();
             HiddenInterfaceTest();
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
     class Pack

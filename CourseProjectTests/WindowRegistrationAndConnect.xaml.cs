@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static Azure.Core.HttpHeader;
 
 namespace CourseProjectTests
 {
@@ -24,7 +13,6 @@ namespace CourseProjectTests
         private string connect = @"Data Source = DESKTOP-JA41I9L; Initial Catalog = CourseProjectTests; Trusted_connection=True";
         private string str = "";
         private bool teacher;
-        
         string sqlExpression = "SELECT * FROM Registration";
         public WindowRegistrationAndConnect(bool tiBool)
         {
@@ -32,7 +20,6 @@ namespace CourseProjectTests
             teacher = tiBool;
             str = "INSERT INTO Registration(Nickname, Pass, Teacher) ";
         }
-
         private async void ButtonRegAndConnect_Click(object sender, RoutedEventArgs e)
         {
             if (CheckUpIn.IsChecked == true)
@@ -45,29 +32,21 @@ namespace CourseProjectTests
                 ProverkaRegi();
                 // Выполняется registraciya
             }
-            
         }
         private void Registration()
         {
             using (SqlConnection connection = new SqlConnection(connect))
             {
                 string str2 = str + "VALUES('" + UsernameH.Text + "', '" + PassH.Password.ToString() + "', '" + teacher + "')";
-                //MessageBox.Show(str2);
-                //открываем подклчение
                 connection.Open();
-
                 SqlCommand command = new SqlCommand(str2, connection);
-
                 int num = command.ExecuteNonQuery();
             }
-            
         }
-
         private  void ProverkaAutorization()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
-
                 MessageBox.Show("Поля не могут быть пустыми");
                 return;
             }
@@ -82,8 +61,6 @@ namespace CourseProjectTests
 
                     if (reader.HasRows)
                     {
-                        //string s1 = reader.GetName(3);
-                        //string s2 = reader.GetName(2);
                         while (reader.Read())
                         {
                             object nik = reader.GetValue(1);
@@ -97,9 +74,7 @@ namespace CourseProjectTests
                                     MessageBox.Show("Incorrect Password, try again");
                                 }
                                 else
-                                {
-                                    
-                                    
+                                { 
                                     if(teacher==true)
                                     {
                                         bool teachorstudent = (bool)reader.GetValue(3);
@@ -127,7 +102,6 @@ namespace CourseProjectTests
                                             windowStudent.ShowDialog();
                                             reader.Close();
                                             return;
-
                                         }
                                         else
                                         {
@@ -141,14 +115,12 @@ namespace CourseProjectTests
                     }
                 }
                 catch (Exception e) { MessageBox.Show(e.Message); };
-
             }
         }
          void ProverkaRegi()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
-
                 MessageBox.Show("Поля не могут быть пустыми");
                 return;
             }
@@ -163,8 +135,6 @@ namespace CourseProjectTests
 
                     if (reader.HasRows)
                     {
-                        //string s1 = reader.GetName(3);
-                        //string s2 = reader.GetName(2);
                         while (reader.Read())
                         {
                             object nik = reader.GetValue(1);                            
@@ -175,7 +145,6 @@ namespace CourseProjectTests
                                 MessageBox.Show("Этот ник занят. Попробуйте другой.");
                                 return;
                             }
-                        
                         }
                         if (kolProverka > 0)
                         {
@@ -186,24 +155,32 @@ namespace CourseProjectTests
                             MessageBox.Show("Successfully");
                             Registration();
                         }
-
                         reader.Close();
                     }
-
                 }
                 catch (Exception e) { MessageBox.Show(e.Message); };
-
             }
         }
-
         private void CheckUpIn_Checked(object sender, RoutedEventArgs e)
         {
             ButtonRegAndConnect.Content = "Sign In";
         }
-
         private void CheckUpIn_Unchecked(object sender, RoutedEventArgs e)
         {
             ButtonRegAndConnect.Content = "Sign Up";
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
 }

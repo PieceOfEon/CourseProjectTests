@@ -1,21 +1,10 @@
-﻿using ControlzEx.Standard;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CourseProjectTests
 {
@@ -36,9 +25,8 @@ namespace CourseProjectTests
             InitializeComponent();
             ListPackAdd();
             CompletedPacks();
-            //MessageBox.Show( ListPackItems.Count.ToString());
+            DelEmpty.IsChecked = true;
         }
-
         private void ConfirmNamePack_Click(object sender, RoutedEventArgs e)
         {
             if (PackNameTextBox.Text != "")
@@ -64,7 +52,6 @@ namespace CourseProjectTests
                                     return;
                                 }
                             }
-
                             reader.Close();
                         }
                     }
@@ -77,15 +64,11 @@ namespace CourseProjectTests
                 {
                     string str2 = str + "VALUES('" + PackNameTextBox.Text + "')";
                     connection.Open();
-
                     SqlCommand command = new SqlCommand(str2, connection);
-
-                    int num = command.ExecuteNonQuery();
-                    
+                    int num = command.ExecuteNonQuery(); 
                 }
                 //добавление пака в лист
                 ListPackAdd();
-
             }
         }
         private void CompletedPacks()
@@ -141,18 +124,8 @@ namespace CourseProjectTests
                         while (reader.Read())
                         {
                             object name = reader.GetValue(1);
-                            if(name.ToString().ToLower()== PackNameTextBox.Text)
-                            {
-                                MessageBox.Show("Уже есть такое название пака");
-                                return;
-                            }
-                            else
-                            {
-                                ListPackItems.Add(name.ToString());
-                            }
-                                    
+                            ListPackItems.Add(name.ToString());               
                         }
-
                         reader.Close();
                     }
                 }
@@ -193,12 +166,8 @@ namespace CourseProjectTests
                 using (SqlConnection connection = new SqlConnection(connect))
                 {
                     string str2 = str;
-                    //MessageBox.Show(str2);
-                    //открываем подклчение
                     connection.Open();
-
                     SqlCommand command = new SqlCommand(str2, connection);
-
                     int num = command.ExecuteNonQuery();
 
                 }
@@ -230,25 +199,18 @@ namespace CourseProjectTests
                             }
                             reader.Close();
                         }
-
                     }
                     catch (Exception s) { MessageBox.Show(s.Message); };
                 }
-               
 
                 //Добавляем ответы в виде стринги в таблицу ОтветСтринг и передаем ID созданного вопроса
                 string str3 = "insert into OtvetString(variantString1, variantString2, variantString3, variantString4,voprosID) " +
                     "values('" + VoprosTextBoxOne.Text + "', '" + VoprosTextBoxTwo.Text + "', '" + VoprosTextBoxThird.Text + "', '" + VoprosTextBoxFour.Text+ "', " + IDVoprosa + ")";
                 using (SqlConnection connection = new SqlConnection(connect))
                 {
-                    
                     string str2 = str3;
-                    //MessageBox.Show(str2);
-                    //открываем подклчение
                     connection.Open();
-
                     SqlCommand command = new SqlCommand(str2, connection);
-
                     int num = command.ExecuteNonQuery();
 
                 }
@@ -273,14 +235,11 @@ namespace CourseProjectTests
                                 object name = reader.GetValue(1);
                                 if (name.ToString().ToLower() == ListPack.Text.ToLower())
                                 {
-
                                     IDTesta = id.ToString();
-                                    //MessageBox.Show(IDVoprosa + "\t" + name.ToString() +"\t"+QuestionText.Text.ToLower());
                                 }
                             }
                             reader.Close();
                         }
-
                     }
                     catch (Exception s) { MessageBox.Show(s.Message); };
                 }
@@ -288,19 +247,13 @@ namespace CourseProjectTests
                 //чтоб он больше не отображался в листе не завершенных паков тестов
                 if(endTest=="1")
                 {
-                    //MessageBox.Show(IDTesta);
                     string strEnded = "UPDATE Test\r\nSET ended = 1\r\nWHERE id = "+ IDTesta+"; ";
                     using (SqlConnection connection = new SqlConnection(connect))
                     {
                         string str2 = strEnded;
-                        //MessageBox.Show(str2);
-                        //открываем подклчение
                         connection.Open();
-
                         SqlCommand command = new SqlCommand(str2, connection);
-
                         int num = command.ExecuteNonQuery();
-
                     }
                     ListPackAdd();
                 }
@@ -311,12 +264,8 @@ namespace CourseProjectTests
                 {
 
                     string str2 = str4;
-                    //MessageBox.Show(str2);
-                    //открываем подклчение
                     connection.Open();
-
                     SqlCommand command = new SqlCommand(str2, connection);
-
                     int num = command.ExecuteNonQuery();
 
                 }
@@ -326,11 +275,8 @@ namespace CourseProjectTests
             else
             {
                 MessageBox.Show("Все поля обязательны для заполнения");
-            }
-
-          
+            }  
         }
-
         private void ExportImageButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -344,17 +290,172 @@ namespace CourseProjectTests
                 Images.Source = bitmap;
             }
             imagePath = ((BitmapImage)Images.Source).UriSource.LocalPath;
-            //LabelTestSource.Content = imagePath;
         }
-
         private void EndedTestCheck_Checked(object sender, RoutedEventArgs e)
         {
             endTest = "1";
         }
-
         private void EndedTestCheck_Unchecked(object sender, RoutedEventArgs e)
         {
             endTest = "0";
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+        private void DelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DelPuck();
+        }
+        private void DelPuck()
+        {
+            if(DelEmpty.IsChecked==true)
+            {
+                if (ListPack.Text != "")
+                {
+                    // id теста по имени теста
+                    string testName = ListPack.Text;
+                    int testId = 0;
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("SELECT id FROM Test WHERE names = @testName", connection))
+                        {
+                            command.Parameters.AddWithValue("@testName", testName);
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    testId = reader.GetInt32(0);
+                                }
+                            }
+                        }
+                    }
+
+                    // Удаление связанных записей в таблице Pack
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM Pack WHERE testID = @testId", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Удаление связанных записей в таблице Vopros
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM Vopros WHERE id IN (SELECT voprosID FROM Pack WHERE testID = @testId)", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Удаление связанных записей в таблице OtvetString
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM OtvetString WHERE voprosID IN (SELECT voprosID FROM Pack WHERE testID = @testId)", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Удаление записи в таблице Test
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM Test WHERE id = @testId", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    ListPackAdd();
+                }
+            }
+            if (DelEnded.IsChecked == true)
+            {
+                if (completedpacksBox.Text != "")
+                {
+                    // id теста по имени теста
+                    string testName = completedpacksBox.Text;
+                    int testId = 0;
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("SELECT id FROM Test WHERE names = @testName", connection))
+                        {
+                            command.Parameters.AddWithValue("@testName", testName);
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    testId = reader.GetInt32(0);
+                                }
+                            }
+                        }
+                    }
+
+                    // Удаление связанных записей в таблице Pack
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM Pack WHERE testID = @testId", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Удаление связанных записей в таблице Vopros
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM Vopros WHERE id IN (SELECT voprosID FROM Pack WHERE testID = @testId)", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Удаление связанных записей в таблице OtvetString
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM OtvetString WHERE voprosID IN (SELECT voprosID FROM Pack WHERE testID = @testId)", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Удаление записи в таблице Test
+                    using (SqlConnection connection = new SqlConnection(connect))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("DELETE FROM Test WHERE id = @testId", connection))
+                        {
+                            command.Parameters.AddWithValue("@testId", testId);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    CompletedPacks();
+                }
+            }
         }
     }
 }
