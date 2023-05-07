@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -35,9 +38,12 @@ namespace CourseProjectTests
         }
         private void Registration()
         {
+            byte[] hashedPassword = HashPassword(PassH.Password);
+            string hashedPasswordString = Convert.ToBase64String(hashedPassword);
+
             using (SqlConnection connection = new SqlConnection(connect))
             {
-                string str2 = str + "VALUES('" + UsernameH.Text + "', '" + PassH.Password.ToString() + "', '" + teacher + "')";
+                string str2 = str + "VALUES('" + UsernameH.Text + "', '" + hashedPasswordString + "', '" + teacher + "')";
                 connection.Open();
                 SqlCommand command = new SqlCommand(str2, connection);
                 int num = command.ExecuteNonQuery();
@@ -68,47 +74,62 @@ namespace CourseProjectTests
                             
                             if (UsernameH.Text.ToLower() == nik.ToString().ToLower())
                             {
+                                string password = PassH.Password.ToString();
+                                byte[] hashedPassword = HashPassword(password);
+                                byte[] storedPassword = Convert.FromBase64String(pass.ToString()); // преобразование строки в массив байт
                                 //MessageBox.Show(pass.ToString() + " Log" + nik+"\n"+PassH.Password.ToString()+"\tLog2\t"+UsernameH.Text);
-                                if (PassH.Password.ToString()!=pass.ToString())
+                                //if (PassH.Password.ToString()!=pass.ToString())
+                                //{
+                                //    MessageBox.Show("Incorrect Password, try again");
+                                //}
+                                if (!hashedPassword.SequenceEqual(storedPassword))
                                 {
                                     MessageBox.Show("Incorrect Password, try again");
                                 }
                                 else
-                                { 
-                                    if(teacher==true)
+                                {
+                                   
+                                    if (teacher == true)
                                     {
                                         bool teachorstudent = (bool)reader.GetValue(3);
+
                                         if (teachorstudent == true)
                                         {
-                                            MessageBox.Show("Successfully");
-                                            WindowCreateTest windowCreateTest = new WindowCreateTest();
-                                            windowCreateTest.ShowDialog();
-                                            reader.Close();
-                                            return;
+                                            if (hashedPassword.SequenceEqual(storedPassword))
+                                            {
+                                                MessageBox.Show("Successfully");
+                                                WindowCreateTest windowCreateTest = new WindowCreateTest();
+                                                windowCreateTest.ShowDialog();
+                                                reader.Close();
+                                                return;
+                                            }
                                         }
                                         else
                                         {
                                             MessageBox.Show("Вход разрешен только учителям");
                                             return;
-                                        }                                    
+                                        }
                                     }
                                     else
                                     {
                                         bool teachorstudent = (bool)reader.GetValue(3);
                                         if (teachorstudent == false)
                                         {
-                                            MessageBox.Show("Successfully");
-                                            WindowStudent windowStudent = new WindowStudent();
-                                            windowStudent.ShowDialog();
-                                            reader.Close();
-                                            return;
+                                            if (hashedPassword.SequenceEqual(storedPassword))
+                                            {
+                                                MessageBox.Show("Successfully");
+                                                WindowStudent windowStudent = new WindowStudent();
+                                                windowStudent.ShowDialog();
+                                                reader.Close();
+                                                return;
+                                            }
                                         }
                                         else
                                         {
                                             MessageBox.Show("Вход только для студентов");
                                             return;
-                                        }                                
-                                    }       
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -117,7 +138,19 @@ namespace CourseProjectTests
                 catch (Exception e) { MessageBox.Show(e.Message); };
             }
         }
-         void ProverkaRegi()
+
+        private byte[] HashPassword(string password)
+        {
+            byte[] passwordBytes = Encoding.Unicode.GetBytes(password);
+
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hash = sha256.ComputeHash(passwordBytes);
+                return hash;
+            }
+        }
+
+        void ProverkaRegi()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
