@@ -146,13 +146,16 @@ namespace CourseProjectTests
             VoprosTextBoxTwo.Text = "";
             VoprosTextBoxThird.Text = "";
             VoprosTextBoxFour.Text = "";
-            
+            Images.Source = null;
+
+
         }
         private void ConfirmQuestion_Click(object sender, RoutedEventArgs e)
         {
             string IDVoprosa="";
             string IDTesta = "";
-            if(BoolQuestionFour.Text!="" && BoolQuestionThird.Text!="" && BoolQuestionTwo.Text!="" 
+            
+            if (BoolQuestionFour.Text!="" && BoolQuestionThird.Text!="" && BoolQuestionTwo.Text!="" 
                 && BoolQuestionOne.Text!="" && imagePath.ToString()!="" && VoprosTextBoxOne.Text!="" 
                 && QuestionText.Text!="" && VoprosTextBoxTwo.Text!="" 
                 && VoprosTextBoxThird.Text!="" && VoprosTextBoxFour.Text!="" && ListPack.Text!="")
@@ -183,8 +186,6 @@ namespace CourseProjectTests
 
                         if (reader.HasRows)
                         {
-                            //string s1 = reader.GetName(3);
-                            //string s2 = reader.GetName(2);
                             while (reader.Read())
                             {
                                 object id = reader.GetValue(0);
@@ -224,8 +225,6 @@ namespace CourseProjectTests
 
                         if (reader.HasRows)
                         {
-                            //string s1 = reader.GetName(3);
-                            //string s2 = reader.GetName(2);
                             while (reader.Read())
                             {
                                 object id = reader.GetValue(0);
@@ -285,8 +284,8 @@ namespace CourseProjectTests
                 bitmap.UriSource = new Uri(openFileDialog.FileName);
                 bitmap.EndInit();
                 Images.Source = bitmap;
+                imagePath = bitmap.UriSource?.LocalPath;
             }
-            imagePath = ((BitmapImage)Images.Source).UriSource.LocalPath;
         }
         private void EndedTestCheck_Checked(object sender, RoutedEventArgs e)
         {

@@ -77,11 +77,7 @@ namespace CourseProjectTests
                                 string password = PassH.Password.ToString();
                                 byte[] hashedPassword = HashPassword(password);
                                 byte[] storedPassword = Convert.FromBase64String(pass.ToString()); // преобразование строки в массив байт
-                                //MessageBox.Show(pass.ToString() + " Log" + nik+"\n"+PassH.Password.ToString()+"\tLog2\t"+UsernameH.Text);
-                                //if (PassH.Password.ToString()!=pass.ToString())
-                                //{
-                                //    MessageBox.Show("Incorrect Password, try again");
-                                //}
+                             
                                 if (!hashedPassword.SequenceEqual(storedPassword))
                                 {
                                     MessageBox.Show("Incorrect Password, try again");
