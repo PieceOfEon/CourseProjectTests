@@ -3,10 +3,60 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:CourseProjectTests"
         mc:Ignorable="d"
-        Title="WindowCreateTest" Height="450" Width="800">
+        Title="WindowCreateTest" Height="550" Width="1600" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MouseDown="Window_MouseDown" >
     <Grid>
+        <TextBox Padding="2" x:Name="PackNameTextBox" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="250" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter pack name" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="10,10,0,0"/>
+        <Button x:Name="ConfirmNamePack" Content="Сonfirm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="250" Height="31" FontSize="16" Click="ConfirmNamePack_Click" ></Button>
+        <ComboBox x:Name="ListPack" HorizontalAlignment="Left" Margin="15,90,0,0" VerticalAlignment="Top" Width="245" ToolTip="Select a pack of questions"></ComboBox>
+        <Button x:Name="ConfirmQuestion" Content="Сonfirm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300,426,0,0" Width="718" Height="32" FontSize="16" Click="ConfirmQuestion_Click" />
+
+        <TextBox Padding="2" x:Name="QuestionText" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="718" Height="29"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter a question" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="300,41,0,0"/>
+
+        <TextBox Padding="2" x:Name="VoprosTextBoxOne" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="300,102,0,0"/>
+        <ComboBox x:Name="BoolQuestionOne" HorizontalAlignment="Left" Margin="938,102,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
+            <Label Content="True"></Label>
+            <Label Content="False"></Label>
+        </ComboBox>
+
+        <TextBox Padding="2" x:Name="VoprosTextBoxTwo" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="300,168,0,0"/>
+        <ComboBox x:Name="BoolQuestionTwo" HorizontalAlignment="Left" Margin="938,168,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
+            <Label Content="True"></Label>
+            <Label Content="False"></Label>
+        </ComboBox>
+        <TextBox Padding="2" x:Name="VoprosTextBoxThird" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="300,230,0,0"/>
+        <ComboBox x:Name="BoolQuestionThird" HorizontalAlignment="Left" Margin="938,230,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
+            <Label Content="True"/>
+            <Label Content="False"/>
+        </ComboBox>
+        <TextBox Padding="2" x:Name="VoprosTextBoxFour" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="634" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Enter answer and type of answer" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="300,300,0,0"/>
+        <ComboBox x:Name="BoolQuestionFour" HorizontalAlignment="Left" Margin="938,300,0,0" VerticalAlignment="Top" Width="80" Height="30" ToolTip="Mark the response type">
+            <Label Content="True"/>
+            <Label Content="False"/>
+        </ComboBox>
+
+        <Image x:Name="Images" HorizontalAlignment="Left" Height="299" Margin="1107,41,0,0" VerticalAlignment="Top" Width="400">
+
+        </Image>
+        <Button  x:Name="ExportImageButton" Content="Export Image" HorizontalAlignment="Left" Margin="1107,378,0,0" VerticalAlignment="Top" Width="405" Click="ExportImageButton_Click"/>
+
+        <CheckBox x:Name="EndedTestCheck" Content="At the end of the test pack, check the box" HorizontalAlignment="Left" Margin="300,376,0,0" VerticalAlignment="Top" Checked="EndedTestCheck_Checked" Unchecked="EndedTestCheck_Unchecked"/>
+
+        <TextBox Padding="2" x:Name="CompetedPack" HorizontalAlignment="Left" VerticalAlignment="Top"   Width="250" Height="30"  Background="#7FFFFFFF"  materialDesign:HintAssist.Hint="Completed Paks" Style="{StaticResource ResourceKey=MaterialDesignTextBox}" FontSize="16" BorderThickness="0,0,0,1" mah:ControlsHelper.FocusBorderThickness="0,0,10,0" Margin="10,215,0,0" IsReadOnly="True"/>
+
+        <ComboBox x:Name="completedpacksBox" HorizontalAlignment="Left" Margin="15,250,0,0" VerticalAlignment="Top" Width="245"/>
+
+
+
+        <RadioButton x:Name="DelEmpty" Content="Empty Puck" HorizontalAlignment="Left" Margin="15,306,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="DelEnded" Content="Ended Puck" HorizontalAlignment="Left" Margin="176,306,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="DelButton" Content="Deleted Pack" HorizontalAlignment="Left" Margin="15,336,0,0" VerticalAlignment="Top" Width="245" Click="DelButton_Click"/>
+        <Button Content="r" Margin="1544,0,0,518" Click="Button_Click" FontFamily="Webdings" FontSize="16"></Button>
+        <Button Content="0" Margin="1485,0,56,518"  FontFamily="Webdings" FontSize="16" Click="Button_Click_1"></Button>
         
+
     </Grid>
 </Window>

@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static Azure.Core.HttpHeader;
 
 namespace CourseProjectTests
 {
@@ -23,9 +15,7 @@ namespace CourseProjectTests
     {
         private string connect = @"Data Source = DESKTOP-JA41I9L; Initial Catalog = CourseProjectTests; Trusted_connection=True";
         private string str = "";
-        //private string sqlExpression = "SELECT * FROM Registration";
         private bool teacher;
-        
         string sqlExpression = "SELECT * FROM Registration";
         public WindowRegistrationAndConnect(bool tiBool)
         {
@@ -33,7 +23,6 @@ namespace CourseProjectTests
             teacher = tiBool;
             str = "INSERT INTO Registration(Nickname, Pass, Teacher) ";
         }
-
         private async void ButtonRegAndConnect_Click(object sender, RoutedEventArgs e)
         {
             if (CheckUpIn.IsChecked == true)
@@ -46,29 +35,24 @@ namespace CourseProjectTests
                 ProverkaRegi();
                 // Выполняется registraciya
             }
-            
         }
-        private async void Registration()
+        private void Registration()
         {
+            byte[] hashedPassword = HashPassword(PassH.Password);
+            string hashedPasswordString = Convert.ToBase64String(hashedPassword);
+
             using (SqlConnection connection = new SqlConnection(connect))
             {
-                string str2 = str + "VALUES('" + UsernameH.Text + "', '" + PassH.Password.ToString() + "', '" + teacher + "')";
-                //MessageBox.Show(str2);
-                //открываем подклчение
-                await connection.OpenAsync();
-
+                string str2 = str + "VALUES('" + UsernameH.Text + "', '" + hashedPasswordString + "', '" + teacher + "')";
+                connection.Open();
                 SqlCommand command = new SqlCommand(str2, connection);
-
-                int num = await command.ExecuteNonQueryAsync();
+                int num = command.ExecuteNonQuery();
             }
-            
         }
-
-        async void ProverkaAutorization()
+        private  void ProverkaAutorization()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
-
                 MessageBox.Show("Поля не могут быть пустыми");
                 return;
             }
@@ -77,50 +61,95 @@ namespace CourseProjectTests
             {
                 try
                 {
-                    await connection.OpenAsync();
+                    connection.Open();
                     SqlCommand command = new SqlCommand(sqlExpression, connection);
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
-                        //string s1 = reader.GetName(3);
-                        //string s2 = reader.GetName(2);
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             object nik = reader.GetValue(1);
                             object pass = reader.GetValue(2);
                             
                             if (UsernameH.Text.ToLower() == nik.ToString().ToLower())
                             {
-                                //MessageBox.Show(pass.ToString() + " Log" + nik+"\n"+PassH.Password.ToString()+"\tLog2\t"+UsernameH.Text);
-                                if (PassH.Password.ToString()!=pass.ToString())
+                                string password = PassH.Password.ToString();
+                                byte[] hashedPassword = HashPassword(password);
+                                byte[] storedPassword = Convert.FromBase64String(pass.ToString()); // преобразование строки в массив байт
+                             
+                                if (!hashedPassword.SequenceEqual(storedPassword))
                                 {
                                     MessageBox.Show("Incorrect Password, try again");
                                 }
                                 else
                                 {
-                                    await reader.CloseAsync();
-                                    MessageBox.Show("Successfully");
-                                    WindowCreateTest windowCreateTest = new WindowCreateTest();
-                                    windowCreateTest.ShowDialog();
-                                    return;
+                                   
+                                    if (teacher == true)
+                                    {
+                                        bool teachorstudent = (bool)reader.GetValue(3);
+
+                                        if (teachorstudent == true)
+                                        {
+                                            if (hashedPassword.SequenceEqual(storedPassword))
+                                            {
+                                                MessageBox.Show("Successfully");
+                                                WindowCreateTest windowCreateTest = new WindowCreateTest();
+                                                windowCreateTest.ShowDialog();
+                                                reader.Close();
+                                                return;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Вход разрешен только учителям");
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        bool teachorstudent = (bool)reader.GetValue(3);
+                                        if (teachorstudent == false)
+                                        {
+                                            if (hashedPassword.SequenceEqual(storedPassword))
+                                            {
+                                                MessageBox.Show("Successfully");
+                                                WindowStudent windowStudent = new WindowStudent();
+                                                windowStudent.ShowDialog();
+                                                reader.Close();
+                                                return;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Вход только для студентов");
+                                            return;
+                                        }
+                                    }
                                 }
                             }
                         }
-
-                        await reader.CloseAsync();
                     }
-
                 }
                 catch (Exception e) { MessageBox.Show(e.Message); };
-
             }
         }
-        async void ProverkaRegi()
+
+        private byte[] HashPassword(string password)
+        {
+            byte[] passwordBytes = Encoding.Unicode.GetBytes(password);
+
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hash = sha256.ComputeHash(passwordBytes);
+                return hash;
+            }
+        }
+
+        void ProverkaRegi()
         {
             if (UsernameH.Text == "" || PassH.Password.ToString() == "")
             {
-
                 MessageBox.Show("Поля не могут быть пустыми");
                 return;
             }
@@ -129,15 +158,13 @@ namespace CourseProjectTests
             {
                 try
                 {
-                    await connection.OpenAsync();
+                    connection.Open();
                     SqlCommand command = new SqlCommand(sqlExpression, connection);
-                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    SqlDataReader reader = command.ExecuteReader();
 
                     if (reader.HasRows)
                     {
-                        //string s1 = reader.GetName(3);
-                        //string s2 = reader.GetName(2);
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             object nik = reader.GetValue(1);                            
                             //MessageBox.Show(nik.ToString());
@@ -147,7 +174,6 @@ namespace CourseProjectTests
                                 MessageBox.Show("Этот ник занят. Попробуйте другой.");
                                 return;
                             }
-                        
                         }
                         if (kolProverka > 0)
                         {
@@ -158,24 +184,32 @@ namespace CourseProjectTests
                             MessageBox.Show("Successfully");
                             Registration();
                         }
-
-                        await reader.CloseAsync();
+                        reader.Close();
                     }
-
                 }
                 catch (Exception e) { MessageBox.Show(e.Message); };
-
             }
         }
-
         private void CheckUpIn_Checked(object sender, RoutedEventArgs e)
         {
             ButtonRegAndConnect.Content = "Sign In";
         }
-
         private void CheckUpIn_Unchecked(object sender, RoutedEventArgs e)
         {
             ButtonRegAndConnect.Content = "Sign Up";
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
 }
